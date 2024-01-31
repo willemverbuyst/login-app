@@ -1,14 +1,23 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import "./App.css";
-import InputField from "./components/InputField";
+import InputField, { Api } from "./components/InputField";
 
 function App() {
+  const passwordRef = useRef<Api>(null);
+  const userNameRef = useRef<Api>(null);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    validate();
     console.log(userName, password);
+  }
+
+  function validate() {
+    if (!password.trim()) {
+      passwordRef.current?.focus();
+    }
   }
 
   return (
@@ -27,6 +36,7 @@ function App() {
         value={userName}
         setValue={setUserName}
         type="text"
+        apiRef={passwordRef}
       />
       <InputField
         id="password"
@@ -34,6 +44,7 @@ function App() {
         type="password"
         value={password}
         setValue={setPassword}
+        apiRef={userNameRef}
       />
 
       <section>

@@ -1,4 +1,14 @@
-import { Dispatch, HTMLInputTypeAttribute, SetStateAction } from "react";
+import {
+  Dispatch,
+  HTMLInputTypeAttribute,
+  RefObject,
+  SetStateAction,
+  useImperativeHandle,
+} from "react";
+
+export type Api = {
+  focus: () => void;
+};
 
 function InputField(props: {
   id: string;
@@ -6,7 +16,18 @@ function InputField(props: {
   type: HTMLInputTypeAttribute;
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  apiRef: RefObject<Api>;
 }) {
+  useImperativeHandle(
+    props.apiRef,
+    () => ({
+      focus: () => {
+        console.log(`ENTER A VALUE FOR ${props.id.toLocaleUpperCase()}`);
+      },
+    }),
+    [props.id]
+  );
+
   return (
     <section
       style={{
