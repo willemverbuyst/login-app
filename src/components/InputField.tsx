@@ -4,6 +4,7 @@ import {
   RefObject,
   SetStateAction,
   useImperativeHandle,
+  useRef,
 } from "react";
 
 export type Api = {
@@ -18,11 +19,13 @@ function InputField(props: {
   setValue: Dispatch<SetStateAction<string>>;
   apiRef: RefObject<Api>;
 }) {
+  const inputRef = useRef<HTMLInputElement>(null);
   useImperativeHandle(
     props.apiRef,
     () => ({
       focus: () => {
         console.log(`ENTER A VALUE FOR ${props.id.toLocaleUpperCase()}`);
+        inputRef.current?.focus();
       },
     }),
     [props.id]
@@ -44,6 +47,7 @@ function InputField(props: {
         {props.label}
       </label>
       <input
+        ref={inputRef}
         id={props.id}
         type={props.type}
         value={props.value}

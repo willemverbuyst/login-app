@@ -3,8 +3,8 @@ import "./App.css";
 import InputField, { Api } from "./components/InputField";
 
 function App() {
-  const passwordRef = useRef<Api>(null);
   const userNameRef = useRef<Api>(null);
+  const passwordRef = useRef<Api>(null);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,6 +15,9 @@ function App() {
   }
 
   function validate() {
+    if (!userName.trim()) {
+      userNameRef.current?.focus();
+    }
     if (!password.trim()) {
       passwordRef.current?.focus();
     }
@@ -36,7 +39,7 @@ function App() {
         value={userName}
         setValue={setUserName}
         type="text"
-        apiRef={passwordRef}
+        apiRef={userNameRef}
       />
       <InputField
         id="password"
@@ -44,7 +47,7 @@ function App() {
         type="password"
         value={password}
         setValue={setPassword}
-        apiRef={userNameRef}
+        apiRef={passwordRef}
       />
 
       <section>
