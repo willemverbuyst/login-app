@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import "./App.css";
+import InputField from "./components/InputField";
 
 function App() {
   const [userName, setUserName] = useState("");
@@ -20,38 +21,21 @@ function App() {
       }}
       onSubmit={(e) => handleSubmit(e)}
     >
-      <section
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <label
-          htmlFor="userName"
-          style={{
-            padding: "0.5rem",
-          }}
-        >
-          USER NAME
-        </label>
-        <input
-          id="userName"
-          type="text"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-        />
-      </section>
-      <section style={{ display: "flex", flexDirection: "column" }}>
-        <label htmlFor="password" style={{ padding: "0.5rem" }}>
-          PASSWORD
-        </label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </section>
+      <InputField
+        id="userName"
+        label="USER NAME"
+        value={userName}
+        setValue={setUserName}
+        type="text"
+      />
+      <InputField
+        id="password"
+        label="PASSWORD"
+        type="password"
+        value={password}
+        setValue={setPassword}
+      />
+
       <section>
         <button type="submit">SUBMIT</button>
       </section>
