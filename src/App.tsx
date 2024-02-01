@@ -6,14 +6,14 @@ function App() {
   const userNameRef = useRef<Api>(null);
   const passwordRef = useRef<Api>(null);
 
-  const [loggedInUser, setLoggedInUser] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState<string>("");
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const target = e.currentTarget;
-    const userName = target["userName"].value;
-    const password = target["password"].value;
+    const formData = new FormData(e.currentTarget);
+    const userName = formData.get("userName") as string;
+    const password = formData.get("password") as string;
     validate(userName, password);
 
     if (userName && password) {
