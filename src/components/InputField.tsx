@@ -5,10 +5,12 @@ import {
   SetStateAction,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
 
 export type Api = {
   focus: () => void;
+  setError: (msg: string) => void;
 };
 
 function InputField(props: {
@@ -19,23 +21,31 @@ function InputField(props: {
   setValue: Dispatch<SetStateAction<string>>;
   apiRef: RefObject<Api>;
 }) {
+  const [errorMessage, setErrorMessage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
   useImperativeHandle(
     props.apiRef,
     () => ({
       focus: () => {
-        console.log(`ENTER A VALUE FOR ${props.id.toLocaleUpperCase()}`);
         inputRef.current?.focus();
       },
+      setError: (msg: string) => setErrorMessage(msg),
     }),
-    [props.id]
+    []
   );
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setErrorMessage("");
+    props.setValue(e.target.value);
+  }
 
   return (
     <section
       style={{
         display: "flex",
         flexDirection: "column",
+        paddingBottom: "3rem",
       }}
     >
       <label
@@ -51,8 +61,18 @@ function InputField(props: {
         id={props.id}
         type={props.type}
         value={props.value}
-        onChange={(e) => props.setValue(e.target.value)}
+        onChange={handleChange}
       />
+      <p
+        style={{
+          color: "red",
+          fontSize: "80%",
+          margin: 0,
+          textAlign: "left",
+        }}
+      >
+        {errorMessage}
+      </p>
     </section>
   );
 }

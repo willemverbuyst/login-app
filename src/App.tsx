@@ -11,15 +11,22 @@ function App() {
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     validate();
-    console.log(userName, password);
+
+    if (userName && password) {
+      console.log(userName, password);
+      setUserName("");
+      setPassword("");
+    }
   }
 
   function validate() {
     if (!userName.trim()) {
       userNameRef.current?.focus();
+      userNameRef.current?.setError("username is missing");
     }
     if (!password.trim()) {
       passwordRef.current?.focus();
+      passwordRef.current?.setError("password is missing");
     }
   }
 
@@ -51,7 +58,9 @@ function App() {
       />
 
       <section>
-        <button type="submit">SUBMIT</button>
+        <button type="submit" disabled={!userName && !password}>
+          SUBMIT
+        </button>
       </section>
     </form>
   );
