@@ -7,15 +7,14 @@ function App() {
   const passwordRef = useRef<Api>(null);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     validate();
 
     if (userName && password) {
-      console.log(userName, password);
-      setUserName("");
-      setPassword("");
+      setIsLoggedIn(true);
     }
   }
 
@@ -30,39 +29,52 @@ function App() {
     }
   }
 
-  return (
-    <form
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        width: "100%",
-      }}
-      onSubmit={(e) => handleSubmit(e)}
-    >
-      <InputField
-        id="userName"
-        label="USER NAME"
-        value={userName}
-        setValue={setUserName}
-        type="text"
-        apiRef={userNameRef}
-      />
-      <InputField
-        id="password"
-        label="PASSWORD"
-        type="password"
-        value={password}
-        setValue={setPassword}
-        apiRef={passwordRef}
-      />
+  function goToForm() {
+    setIsLoggedIn(false);
+    setUserName("");
+    setPassword("");
+  }
 
-      <section>
-        <button type="submit" disabled={!userName && !password}>
-          SUBMIT
-        </button>
-      </section>
-    </form>
+  return isLoggedIn ? (
+    <main>
+      <h1>Welcome {userName}</h1>
+      <button onClick={goToForm}>LOG OUT</button>
+    </main>
+  ) : (
+    <main>
+      <form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          width: "100%",
+        }}
+        onSubmit={(e) => handleSubmit(e)}
+      >
+        <InputField
+          id="userName"
+          label="USER NAME"
+          value={userName}
+          setValue={setUserName}
+          type="text"
+          apiRef={userNameRef}
+        />
+        <InputField
+          id="password"
+          label="PASSWORD"
+          type="password"
+          value={password}
+          setValue={setPassword}
+          apiRef={passwordRef}
+        />
+
+        <section>
+          <button type="submit" disabled={!userName && !password}>
+            SUBMIT
+          </button>
+        </section>
+      </form>
+    </main>
   );
 }
 
