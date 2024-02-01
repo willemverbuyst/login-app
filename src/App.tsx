@@ -5,39 +5,43 @@ import InputField, { Api } from "./components/InputField";
 function App() {
   const userNameRef = useRef<Api>(null);
   const passwordRef = useRef<Api>(null);
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [loggedInUser, setLoggedInUser] = useState("");
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    validate();
+
+    const target = e.currentTarget;
+    const userName = target["userName"].value;
+    const password = target["password"].value;
+    validate(userName, password);
 
     if (userName && password) {
-      setIsLoggedIn(true);
+      setLoggedInUser(userName);
     }
   }
 
-  function validate() {
-    if (!userName.trim()) {
+  function validate(
+    userName: FormDataEntryValue | null,
+    password: FormDataEntryValue | null
+  ) {
+    if (!userName || (typeof userName === "string" && !userName.trim())) {
       userNameRef.current?.focus();
       userNameRef.current?.setError("username is missing");
     }
-    if (!password.trim()) {
+    if (!password || (typeof password === "string" && !password.trim())) {
       passwordRef.current?.focus();
       passwordRef.current?.setError("password is missing");
     }
   }
 
   function goToForm() {
-    setIsLoggedIn(false);
-    setUserName("");
-    setPassword("");
+    setLoggedInUser("");
   }
 
-  return isLoggedIn ? (
+  return loggedInUser ? (
     <main>
-      <h1>Welcome {userName}</h1>
+      <h1>Welcome {loggedInUser}</h1>
       <button onClick={goToForm}>LOG OUT</button>
     </main>
   ) : (
@@ -50,13 +54,11 @@ function App() {
           gap: "1rem",
           width: "100%",
         }}
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={handleSubmit}
       >
         <InputField
           id="userName"
           label="USER NAME"
-          value={userName}
-          setValue={setUserName}
           type="text"
           apiRef={userNameRef}
         />
@@ -64,15 +66,11 @@ function App() {
           id="password"
           label="PASSWORD"
           type="password"
-          value={password}
-          setValue={setPassword}
           apiRef={passwordRef}
         />
 
         <section>
-          <button type="submit" disabled={!userName && !password}>
-            SUBMIT
-          </button>
+          <button type="submit">SUBMIT</button>
         </section>
       </form>
     </main>

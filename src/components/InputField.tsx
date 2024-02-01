@@ -1,8 +1,6 @@
 import {
-  Dispatch,
   HTMLInputTypeAttribute,
   RefObject,
-  SetStateAction,
   useImperativeHandle,
   useRef,
   useState,
@@ -17,8 +15,7 @@ function InputField(props: {
   id: string;
   label: string;
   type: HTMLInputTypeAttribute;
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+
   apiRef: RefObject<Api>;
 }) {
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,11 +31,6 @@ function InputField(props: {
     }),
     []
   );
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setErrorMessage("");
-    props.setValue(e.target.value);
-  }
 
   return (
     <section
@@ -56,13 +48,7 @@ function InputField(props: {
       >
         {props.label}
       </label>
-      <input
-        ref={inputRef}
-        id={props.id}
-        type={props.type}
-        value={props.value}
-        onChange={handleChange}
-      />
+      <input ref={inputRef} id={props.id} type={props.type} />
       <p
         style={{
           color: "red",
