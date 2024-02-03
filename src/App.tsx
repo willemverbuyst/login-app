@@ -1,6 +1,15 @@
-import { FormEvent, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import InputField, { Api } from "./components/InputField";
+
+interface FormElements extends HTMLFormControlsCollection {
+  userName: HTMLInputElement;
+  password: HTMLInputElement;
+}
+
+interface LoginFormElement extends HTMLFormElement {
+  readonly elements: FormElements;
+}
 
 function App() {
   const userNameRef = useRef<Api>(null);
@@ -8,12 +17,12 @@ function App() {
 
   const [loggedInUser, setLoggedInUser] = useState<string>("");
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<LoginFormElement>) {
     e.preventDefault();
+    const currentTarget = e.currentTarget;
 
-    const formData = new FormData(e.currentTarget);
-    const userName = formData.get("userName") as string;
-    const password = formData.get("password") as string;
+    const userName = currentTarget.elements.userName.value;
+    const password = currentTarget.elements.password.value;
     validate(userName, password);
 
     if (userName && password) {
@@ -48,6 +57,7 @@ function App() {
     <main>
       <h1>Login</h1>
       <form
+        id="loginForm"
         style={{
           display: "flex",
           flexDirection: "column",
