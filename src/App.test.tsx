@@ -85,4 +85,36 @@ describe("App", () => {
     expect(errorMessageUserName).toBeDefined();
     expect(errorMessageUserName).toHaveStyle({ color: "rgb(255, 0, 0)" });
   });
+
+  it("should navigate back to empty form", () => {
+    render(<App />);
+
+    const userNameInput = screen.getByRole("textbox", {
+      name: /USER NAME/i,
+    }) as HTMLInputElement;
+    const passwordInput = screen.getByLabelText(
+      /password/i
+    ) as HTMLInputElement;
+    const button = screen.getByRole("button", { name: /submit/i });
+
+    fireEvent.change(userNameInput, { target: { value: "John Doe" } });
+    fireEvent.change(passwordInput, { target: { value: "anypassword" } });
+    fireEvent.click(button);
+
+    const logoutBtn = screen.getByRole("button", { name: /log out/i });
+    fireEvent.click(logoutBtn);
+
+    expect(screen.getByText(/login/i)).toBeDefined();
+    expect(screen.getByRole("button", { name: /submit/i })).toBeDefined();
+
+    const userNameInputRevisit = screen.getByRole("textbox", {
+      name: /USER NAME/i,
+    }) as HTMLInputElement;
+    const passwordInputRevisit = screen.getByLabelText(
+      /password/i
+    ) as HTMLInputElement;
+
+    expect(userNameInputRevisit.value).toBe("");
+    expect(passwordInputRevisit.value).toBe("");
+  });
 });
