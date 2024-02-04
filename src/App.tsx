@@ -34,13 +34,13 @@ function App() {
     userName: FormDataEntryValue | null,
     password: FormDataEntryValue | null
   ) {
-    if (!userName || (typeof userName === "string" && !userName.trim())) {
-      userNameRef.current?.focus();
-      userNameRef.current?.setError("username is missing");
-    }
     if (!password || (typeof password === "string" && !password.trim())) {
       passwordRef.current?.focus();
       passwordRef.current?.setError("password is missing");
+    }
+    if (!userName || (typeof userName === "string" && !userName.trim())) {
+      userNameRef.current?.focus();
+      userNameRef.current?.setError("username is missing");
     }
   }
 

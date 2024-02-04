@@ -44,6 +44,9 @@ describe("App", () => {
     const userNameInput = screen.getByRole("textbox", {
       name: /USER NAME/i,
     }) as HTMLInputElement;
+    const passwordInput = screen.getByLabelText(
+      /password/i
+    ) as HTMLInputElement;
     const button = screen.getByRole("button", { name: /submit/i });
 
     fireEvent.change(userNameInput, { target: { value: "John Doe" } });
@@ -52,11 +55,15 @@ describe("App", () => {
     const errorMessage = screen.getByText(/password is missing/i);
     expect(errorMessage).toBeDefined();
     expect(errorMessage).toHaveStyle({ color: "rgb(255, 0, 0)" });
+    expect(passwordInput.matches(":focus")).toBe(true);
   });
 
   it("should render an error message when username is missing", () => {
     render(<App />);
 
+    const userNameInput = screen.getByRole("textbox", {
+      name: /USER NAME/i,
+    }) as HTMLInputElement;
     const passwordInput = screen.getByLabelText(
       /password/i
     ) as HTMLInputElement;
@@ -69,11 +76,15 @@ describe("App", () => {
     const errorMessage = screen.getByText(/username is missing/i);
     expect(errorMessage).toBeDefined();
     expect(errorMessage).toHaveStyle({ color: "rgb(255, 0, 0)" });
+    expect(userNameInput.matches(":focus")).toBe(true);
   });
 
   it("should render error messages when values are missing", () => {
     render(<App />);
 
+    const userNameInput = screen.getByRole("textbox", {
+      name: /USER NAME/i,
+    }) as HTMLInputElement;
     const button = screen.getByRole("button", { name: /submit/i });
 
     fireEvent.click(button);
@@ -84,6 +95,7 @@ describe("App", () => {
     const errorMessageUserName = screen.getByText(/username is missing/i);
     expect(errorMessageUserName).toBeDefined();
     expect(errorMessageUserName).toHaveStyle({ color: "rgb(255, 0, 0)" });
+    expect(userNameInput.matches(":focus")).toBe(true);
   });
 
   it("should navigate back to empty form", () => {
