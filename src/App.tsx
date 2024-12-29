@@ -3,7 +3,7 @@ import "./App.css";
 import InputField, { Api } from "./components/InputField";
 
 interface FormElements extends HTMLFormControlsCollection {
-  userName: HTMLInputElement;
+  username: HTMLInputElement;
   password: HTMLInputElement;
 }
 
@@ -12,7 +12,7 @@ interface LoginFormElement extends HTMLFormElement {
 }
 
 function App() {
-  const userNameRef = useRef<Api>(null);
+  const usernameRef = useRef<Api>(null);
   const passwordRef = useRef<Api>(null);
 
   const [loggedInUser, setLoggedInUser] = useState<string>("");
@@ -21,26 +21,26 @@ function App() {
     e.preventDefault();
     const currentTarget = e.currentTarget;
 
-    const userName = currentTarget.elements.userName.value;
+    const username = currentTarget.elements.username.value;
     const password = currentTarget.elements.password.value;
-    validate(userName, password);
+    validate(username, password);
 
-    if (userName && password) {
-      setLoggedInUser(userName);
+    if (username && password) {
+      setLoggedInUser(username);
     }
   }
 
   function validate(
-    userName: FormDataEntryValue | null,
+    username: FormDataEntryValue | null,
     password: FormDataEntryValue | null
   ) {
     if (!password || (typeof password === "string" && !password.trim())) {
       passwordRef.current?.focus();
       passwordRef.current?.setError("password is missing");
     }
-    if (!userName || (typeof userName === "string" && !userName.trim())) {
-      userNameRef.current?.focus();
-      userNameRef.current?.setError("username is missing");
+    if (!username || (typeof username === "string" && !username.trim())) {
+      usernameRef.current?.focus();
+      usernameRef.current?.setError("username is missing");
     }
   }
 
@@ -67,10 +67,10 @@ function App() {
         onSubmit={handleSubmit}
       >
         <InputField
-          id="userName"
-          label="USER NAME"
+          id="username"
+          label="USERNAME"
           type="text"
-          apiRef={userNameRef}
+          apiRef={usernameRef}
         />
         <InputField
           id="password"

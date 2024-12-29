@@ -15,7 +15,6 @@ function InputField(props: {
   id: string;
   label: string;
   type: HTMLInputTypeAttribute;
-
   apiRef: RefObject<Api>;
 }) {
   const [errorMessage, setErrorMessage] = useState("");
