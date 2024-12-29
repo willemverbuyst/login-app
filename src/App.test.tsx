@@ -78,7 +78,7 @@ describe("App", () => {
 
     expect(errorMessage).toBeDefined();
     expect(errorMessage).toHaveStyle({ color: "rgb(255, 0, 0)" });
-    expect(usernameInput.matches(":focus")).toBe(true);
+    expect(passwordInput.matches(":focus")).toBe(true);
   });
 
   it("should render error messages when both values are missing", () => {

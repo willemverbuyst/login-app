@@ -23,9 +23,9 @@ function App() {
 
     const username = currentTarget.elements.username.value;
     const password = currentTarget.elements.password.value;
-    validate(username, password);
+    const isValid = validate(username, password);
 
-    if (username && password) {
+    if (isValid) {
       setLoggedInUser(username);
     }
   }
@@ -34,14 +34,18 @@ function App() {
     username: FormDataEntryValue | null,
     password: FormDataEntryValue | null
   ) {
+    let isValid = true;
     if (!password || (typeof password === "string" && !password.trim())) {
       passwordRef.current?.focus();
       passwordRef.current?.setError("password is missing");
+      isValid = false;
     }
     if (!username || (typeof username === "string" && !username.trim())) {
       usernameRef.current?.focus();
       usernameRef.current?.setError("username is missing");
+      isValid = false;
     }
+    return isValid;
   }
 
   function goToForm() {
