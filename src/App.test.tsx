@@ -14,7 +14,7 @@ describe("App", () => {
   it("should render with 2 input fields and a button", () => {
     render(<App />);
 
-    expect(screen.getByRole("textbox", { name: /username/i })).toBeDefined();
+    expect(screen.getByLabelText(/username/i)).toBeDefined();
     expect(screen.getByLabelText(/password/i)).toBeDefined();
     expect(screen.getByRole("button", { name: /submit/i })).toBeDefined();
   });
@@ -22,16 +22,16 @@ describe("App", () => {
   it("should render a welcome message after submitting form correctly", () => {
     render(<App />);
 
-    const usernameInput = screen.getByRole("textbox", {
-      name: /USERNAME/i,
-    }) as HTMLInputElement;
+    const usernameInput = screen.getByLabelText(
+      /username/i
+    ) as HTMLInputElement;
     const passwordInput = screen.getByLabelText(
       /password/i
     ) as HTMLInputElement;
     const button = screen.getByRole("button", { name: /submit/i });
 
     fireEvent.change(usernameInput, { target: { value: "John Doe" } });
-    fireEvent.change(passwordInput, { target: { value: "anypassword" } });
+    fireEvent.change(passwordInput, { target: { value: "any_password_123" } });
     fireEvent.click(button);
 
     expect(screen.getByText("Welcome John Doe")).toBeDefined();
@@ -41,9 +41,9 @@ describe("App", () => {
   it("should render an error message when password is missing", () => {
     render(<App />);
 
-    const usernameInput = screen.getByRole("textbox", {
-      name: /USERNAME/i,
-    }) as HTMLInputElement;
+    const usernameInput = screen.getByLabelText(
+      /username/i
+    ) as HTMLInputElement;
     const passwordInput = screen.getByLabelText(
       /password/i
     ) as HTMLInputElement;
@@ -61,16 +61,16 @@ describe("App", () => {
   it("should render an error message when username is missing", () => {
     render(<App />);
 
-    const usernameInput = screen.getByRole("textbox", {
-      name: /USERNAME/i,
-    }) as HTMLInputElement;
+    const usernameInput = screen.getByLabelText(
+      /username/i
+    ) as HTMLInputElement;
     const passwordInput = screen.getByLabelText(
       /password/i
     ) as HTMLInputElement;
 
     const button = screen.getByRole("button", { name: /submit/i });
 
-    fireEvent.change(passwordInput, { target: { value: "anypassword" } });
+    fireEvent.change(passwordInput, { target: { value: "any_password_123" } });
     fireEvent.click(button);
 
     const errorMessage = screen.getByText(/username is missing/i);
@@ -82,9 +82,9 @@ describe("App", () => {
   it("should render an error message when username is an empty string", () => {
     render(<App />);
 
-    const usernameInput = screen.getByRole("textbox", {
-      name: /USERNAME/i,
-    }) as HTMLInputElement;
+    const usernameInput = screen.getByLabelText(
+      /username/i
+    ) as HTMLInputElement;
     const passwordInput = screen.getByLabelText(
       /password/i
     ) as HTMLInputElement;
@@ -92,7 +92,7 @@ describe("App", () => {
     const button = screen.getByRole("button", { name: /submit/i });
 
     fireEvent.change(usernameInput, { target: { value: " " } });
-    fireEvent.change(passwordInput, { target: { value: "anypassword" } });
+    fireEvent.change(passwordInput, { target: { value: "any_password_123" } });
     fireEvent.click(button);
 
     const errorMessage = screen.getByText(/username is missing/i);
@@ -104,9 +104,9 @@ describe("App", () => {
   it("should render an error message when password is an empty string", () => {
     render(<App />);
 
-    const usernameInput = screen.getByRole("textbox", {
-      name: /USERNAME/i,
-    }) as HTMLInputElement;
+    const usernameInput = screen.getByLabelText(
+      /username/i
+    ) as HTMLInputElement;
     const passwordInput = screen.getByLabelText(
       /password/i
     ) as HTMLInputElement;
@@ -126,9 +126,9 @@ describe("App", () => {
   it("should render error messages when values are missing", () => {
     render(<App />);
 
-    const usernameInput = screen.getByRole("textbox", {
-      name: /USERNAME/i,
-    }) as HTMLInputElement;
+    const usernameInput = screen.getByLabelText(
+      /username/i
+    ) as HTMLInputElement;
     const button = screen.getByRole("button", { name: /submit/i });
 
     fireEvent.click(button);
@@ -145,16 +145,16 @@ describe("App", () => {
   it("should navigate back to empty form", () => {
     render(<App />);
 
-    const usernameInput = screen.getByRole("textbox", {
-      name: /USERNAME/i,
-    }) as HTMLInputElement;
+    const usernameInput = screen.getByLabelText(
+      /username/i
+    ) as HTMLInputElement;
     const passwordInput = screen.getByLabelText(
       /password/i
     ) as HTMLInputElement;
     const button = screen.getByRole("button", { name: /submit/i });
 
     fireEvent.change(usernameInput, { target: { value: "John Doe" } });
-    fireEvent.change(passwordInput, { target: { value: "anypassword" } });
+    fireEvent.change(passwordInput, { target: { value: "any_password_123" } });
     fireEvent.click(button);
 
     const logoutBtn = screen.getByRole("button", { name: /log out/i });
@@ -163,9 +163,9 @@ describe("App", () => {
     expect(screen.getByText(/login/i)).toBeDefined();
     expect(screen.getByRole("button", { name: /submit/i })).toBeDefined();
 
-    const usernameInputRevisit = screen.getByRole("textbox", {
-      name: /USERNAME/i,
-    }) as HTMLInputElement;
+    const usernameInputRevisit = screen.getByLabelText(
+      /username/i
+    ) as HTMLInputElement;
     const passwordInputRevisit = screen.getByLabelText(
       /password/i
     ) as HTMLInputElement;
