@@ -1,6 +1,6 @@
-/// <reference types="vitest" />
+/// <reference types="vitest/config" />
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defineConfig, UserConfig } from "vite";
 
 export default defineConfig({
   plugins: [react()],
@@ -9,4 +9,4 @@ export default defineConfig({
     environment: "jsdom",
     css: false,
   },
-});
+} as UserConfig);
